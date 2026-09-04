@@ -1,0 +1,13 @@
+@LowCarbLife.Api_HostAddress = http://localhost:5244
+
+### Login as seeded admin
+POST {{LowCarbLife.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@lowcarblife.local",
+  "password": "Admin123!"
+}
+
+### Public blog list
+GET {{LowCarbLife.Api_HostAddress}}/api/blog

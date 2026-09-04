@@ -1,0 +1,14 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: lowcarblife-sql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "LowCarbLife_Dev1!"
+    ports:
+      - "1433:1433"
+    volumes:
+      - lowcarblife-sql:/var/opt/mssql
+
+volumes:
+  lowcarblife-sql:
