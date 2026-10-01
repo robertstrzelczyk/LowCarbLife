@@ -92,6 +92,8 @@ public class RecipesController(AppDbContext db) : ControllerBase
         recipe.Ingredients.Clear();
         recipe.UpdatedAt = DateTime.UtcNow;
         Apply(recipe, request);
+        // Nowe składniki mają już ustawione Id, więc EF wykryłby je jako Modified (UPDATE nieistniejących wierszy).
+        db.RecipeIngredients.AddRange(recipe.Ingredients);
         await db.SaveChangesAsync();
         return Ok(ToDetail(recipe));
     }
