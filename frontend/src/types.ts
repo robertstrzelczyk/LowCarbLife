@@ -44,6 +44,14 @@ export type Ingredient = {
   amount: string | null
 }
 
+export type Nutrition = {
+  caloriesKcal: number | null
+  proteinGrams: number | null
+  fatGrams: number | null
+  carbsGrams: number | null
+  fiberGrams: number | null
+}
+
 export type RecipeListItem = {
   id: string
   title: string
@@ -58,10 +66,10 @@ export type RecipeDetail = {
   title: string
   description: string
   instructions: string
-  youtubeUrl: string | null
   imageUrl: string | null
   dietType: DietType
   mealCategory: MealCategory
+  nutrition: Nutrition
   ingredients: Ingredient[]
 }
 

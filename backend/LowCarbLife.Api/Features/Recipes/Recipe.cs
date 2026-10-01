@@ -6,10 +6,14 @@ public class Recipe
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Instructions { get; set; } = string.Empty;
-    public string? YoutubeUrl { get; set; }
     public string? ImageUrl { get; set; }
     public DietType DietType { get; set; }
     public MealCategory MealCategory { get; set; }
+    public decimal? CaloriesKcal { get; set; }
+    public decimal? ProteinGrams { get; set; }
+    public decimal? FatGrams { get; set; }
+    public decimal? CarbsGrams { get; set; }
+    public decimal? FiberGrams { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public List<RecipeIngredient> Ingredients { get; set; } = [];

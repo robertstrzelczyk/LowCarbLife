@@ -2,8 +2,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, useNavigate, useParams } from 'react-router'
 import { api } from '../api/client'
 import { useAuth } from '../auth/AuthContext'
+import { IngredientsTable } from '../components/IngredientsTable'
+import { NutritionTable } from '../components/NutritionTable'
 import { useLanguage } from '../i18n/LanguageContext'
-import { youtubeEmbedUrl } from '../lib/format'
+import { mealCategoryLabelKey } from '../lib/meals'
 import type { RecipeDetail } from '../types'
 
 export function RecipeDetailPage() {
@@ -33,15 +35,9 @@ export function RecipeDetailPage() {
     return <p>{t('recipesNotFound')}</p>
   }
 
-  const embed = youtubeEmbedUrl(recipe.data.youtubeUrl)
   const backTo = recipe.data.dietType === 'LowCarb' ? '/przepisy/lowcarb' : '/przepisy/keto'
   const dietLabel = recipe.data.dietType === 'LowCarb' ? t('dietLowcarb') : t('dietKeto')
-  const mealLabel =
-    recipe.data.mealCategory === 'Sniadanie'
-      ? t('mealBreakfast')
-      : recipe.data.mealCategory === 'Obiad'
-        ? t('mealLunch')
-        : t('mealDinner')
+  const mealLabel = t(mealCategoryLabelKey(recipe.data.mealCategory))
 
   return (
     <article className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
@@ -71,47 +67,18 @@ export function RecipeDetailPage() {
             </button>
           </div>
         ) : null}
-        {recipe.data.imageUrl ? <img src={recipe.data.imageUrl} alt="" className="mt-6 w-full rounded-2xl object-cover" /> : null}
+        {recipe.data.imageUrl ? (
+          <img src={recipe.data.imageUrl} alt="" className="mt-6 aspect-[4/3] w-full rounded-2xl object-cover" />
+        ) : null}
         <p className="mt-6 leading-7 text-forest/80">{recipe.data.description}</p>
         <h2 className="mt-8 text-xl font-semibold text-forest">{t('recipesHowTo')}</h2>
         <div className="mt-3 whitespace-pre-wrap leading-7 text-forest/90">{recipe.data.instructions}</div>
       </div>
 
       <aside className="space-y-6">
-        <section className="rounded-2xl bg-white p-5 shadow-sm">
-          <h2 className="text-lg font-semibold text-forest">{t('recipesIngredients')}</h2>
-          <ul className="mt-3 space-y-2 text-sm text-forest/80">
-            {recipe.data.ingredients.map((item) => (
-              <li key={item.name} className="flex justify-between gap-4">
-                <span>{item.name}</span>
-                <span className="text-forest/50">{item.amount}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <IngredientsTable ingredients={recipe.data.ingredients} />
 
-        {embed ? (
-          <section className="overflow-hidden rounded-2xl bg-white shadow-sm">
-            <div className="aspect-video">
-              <iframe
-                title={t('recipesYoutubeTitle')}
-                src={embed}
-                className="h-full w-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-            {recipe.data.youtubeUrl ? (
-              <a href={recipe.data.youtubeUrl} className="block px-4 py-3 text-sm text-orange hover:underline" target="_blank" rel="noreferrer">
-                {t('recipesOpenYoutube')}
-              </a>
-            ) : null}
-          </section>
-        ) : recipe.data.youtubeUrl ? (
-          <a href={recipe.data.youtubeUrl} className="block rounded-2xl bg-white p-5 text-orange shadow-sm hover:underline" target="_blank" rel="noreferrer">
-            {t('recipesYoutubeTitle')}
-          </a>
-        ) : null}
+        <NutritionTable nutrition={recipe.data.nutrition} />
       </aside>
     </article>
   )

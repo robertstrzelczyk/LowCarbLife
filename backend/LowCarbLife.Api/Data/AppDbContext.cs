@@ -33,10 +33,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
             entity.Property(r => r.Title).HasMaxLength(200).IsRequired();
             entity.Property(r => r.Description).IsRequired();
             entity.Property(r => r.Instructions).IsRequired();
-            entity.Property(r => r.YoutubeUrl).HasMaxLength(500);
             entity.Property(r => r.ImageUrl).HasMaxLength(500);
             entity.Property(r => r.DietType).HasConversion<string>().HasMaxLength(20);
             entity.Property(r => r.MealCategory).HasConversion<string>().HasMaxLength(20);
+            entity.Property(r => r.CaloriesKcal).HasPrecision(8, 2);
+            entity.Property(r => r.ProteinGrams).HasPrecision(8, 2);
+            entity.Property(r => r.FatGrams).HasPrecision(8, 2);
+            entity.Property(r => r.CarbsGrams).HasPrecision(8, 2);
+            entity.Property(r => r.FiberGrams).HasPrecision(8, 2);
             entity.HasMany(r => r.Ingredients)
                 .WithOne(i => i.Recipe)
                 .HasForeignKey(i => i.RecipeId)
