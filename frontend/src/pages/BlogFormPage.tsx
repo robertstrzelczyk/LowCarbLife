@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { api } from '../api/client'
+import { ImageField } from '../components/ImageField'
 import { useLanguage } from '../i18n/LanguageContext'
 import type { BlogPostDetail } from '../types'
 
@@ -61,10 +62,7 @@ export function BlogFormPage() {
         {t('fieldContent')}
         <textarea className="mt-1 min-h-48 w-full rounded-lg border border-forest/20 px-3 py-2" value={content} onChange={(e) => setContent(e.target.value)} required />
       </label>
-      <label className="block text-sm font-medium text-forest">
-        {t('fieldImageUrl')}
-        <input className="mt-1 w-full rounded-lg border border-forest/20 px-3 py-2" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
-      </label>
+      <ImageField value={imageUrl} onChange={setImageUrl} />
       <button type="submit" className="rounded-full bg-forest px-5 py-2 font-semibold text-cream" disabled={save.isPending}>
         {t('save')}
       </button>

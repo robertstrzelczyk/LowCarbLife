@@ -17,8 +17,8 @@ public static class AssistantResponder
         if (ContainsAny(message, "przepis", "recipe", "gotow", "cook", "obiad", "śniadan", "sniadan", "kolacj", "dinner", "breakfast", "lunch"))
         {
             return english
-                ? "Recipes are under Recipes in the menu: Keto and Low-carb. You can filter breakfast, lunch and dinner, then open a dish for the method and a YouTube video if there is one."
-                : "Przepisy znajdziesz w menu Przepisy: Keto i Lowcarb. Możesz filtrować śniadanie, obiad i kolację, a w szczegółach jest przygotowanie i film na YouTube, jeśli jest.";
+                ? "Recipes are under Recipes in the menu: Keto and Low-carb. You can filter breakfast, lunch and dinner, then open a dish for the method and nutrition table."
+                : "Przepisy znajdziesz w menu Przepisy: Keto i Lowcarb. Możesz filtrować śniadanie, obiad i kolację, a w szczegółach jest przygotowanie i tabela wartości odżywczych.";
         }
 
         if (ContainsAny(message, "keto"))

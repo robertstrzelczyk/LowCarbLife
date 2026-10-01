@@ -127,6 +127,12 @@ public class RecipesController(AppDbContext db) : ControllerBase
             return false;
         }
 
+        if (request.DietType != DietType.Keto && IsKetoOnlyMeal(request.MealCategory))
+        {
+            error = "Ta kategoria jest dostępna tylko w przepisach keto.";
+            return false;
+        }
+
         error = string.Empty;
         return true;
     }
@@ -136,10 +142,14 @@ public class RecipesController(AppDbContext db) : ControllerBase
         recipe.Title = request.Title.Trim();
         recipe.Description = request.Description.Trim();
         recipe.Instructions = request.Instructions.Trim();
-        recipe.YoutubeUrl = NullIfEmpty(request.YoutubeUrl);
         recipe.ImageUrl = NullIfEmpty(request.ImageUrl);
         recipe.DietType = request.DietType;
         recipe.MealCategory = request.MealCategory;
+        recipe.CaloriesKcal = request.Nutrition?.CaloriesKcal;
+        recipe.ProteinGrams = request.Nutrition?.ProteinGrams;
+        recipe.FatGrams = request.Nutrition?.FatGrams;
+        recipe.CarbsGrams = request.Nutrition?.CarbsGrams;
+        recipe.FiberGrams = request.Nutrition?.FiberGrams;
         recipe.Ingredients = (request.Ingredients ?? [])
             .Where(i => !string.IsNullOrWhiteSpace(i.Name))
             .Select((i, index) => new RecipeIngredient
@@ -158,10 +168,15 @@ public class RecipesController(AppDbContext db) : ControllerBase
             recipe.Title,
             recipe.Description,
             recipe.Instructions,
-            recipe.YoutubeUrl,
             recipe.ImageUrl,
             recipe.DietType,
             recipe.MealCategory,
+            new NutritionDto(
+                recipe.CaloriesKcal,
+                recipe.ProteinGrams,
+                recipe.FatGrams,
+                recipe.CarbsGrams,
+                recipe.FiberGrams),
             recipe.Ingredients
                 .OrderBy(i => i.SortOrder)
                 .Select(i => new IngredientDto(i.Name, i.Amount))
@@ -169,4 +184,12 @@ public class RecipesController(AppDbContext db) : ControllerBase
 
     private static string? NullIfEmpty(string? value) =>
         string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+
+    private static bool IsKetoOnlyMeal(MealCategory meal) =>
+        meal is MealCategory.Przekaski
+            or MealCategory.Smoothie
+            or MealCategory.Desery
+            or MealCategory.Salatki
+            or MealCategory.Zupy
+            or MealCategory.Lunchboxy;
 }
