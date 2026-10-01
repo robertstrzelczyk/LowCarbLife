@@ -1,5 +1,14 @@
 export type DietType = 'Keto' | 'LowCarb'
-export type MealCategory = 'Sniadanie' | 'Obiad' | 'Kolacja'
+export type MealCategory =
+  | 'Sniadanie'
+  | 'Obiad'
+  | 'Kolacja'
+  | 'Przekaski'
+  | 'Smoothie'
+  | 'Desery'
+  | 'Salatki'
+  | 'Zupy'
+  | 'Lunchboxy'
 
 export type MeResponse = {
   email: string
